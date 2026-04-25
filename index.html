@@ -61,7 +61,7 @@
             margin-top: 10px;
         }
 
-        /* Dashboard Styling (Hidden by default) */
+        /* Dashboard Styling */
         #dashboard { display: none; }
 
         .header {
@@ -165,7 +165,6 @@
     <div id="login-screen">
         <div class="login-box">
             <img src="https://i.ibb.co/prhPPdq6/IMG-20260425-WA0075.jpg" alt="Logo" class="login-logo">
-            
             <h2 style="color: #d71e28; margin-top: 0;">Sign On</h2>
             <input type="text" id="userid" placeholder="User ID">
             <input type="password" id="password" placeholder="Password">
@@ -180,13 +179,13 @@
         </div>
 
         <div class="greeting-container">
-            <h1 class="greeting-text">Good morning,<br>HENRY ANA</h1>
+            <h1 class="greeting-text" id="dynamic-greeting">Good morning,<br>HENRY ANA</h1>
             <p class="customer-since">Customer since 2006</p>
         </div>
 
         <div class="account-card">
             <div class="account-type">Everyday Checking ...6514</div>
-            <div class="balance">$15,000,000,000.88</div>
+            <div class="balance">$8,304.88</div>
             <div class="balance-label">Available balance</div>
         </div>
 
@@ -220,11 +219,26 @@
             const pass = document.getElementById('password').value;
 
             if (user === "HENRYANA" && pass === "Simon100") {
+                updateGreeting(); // Set the correct greeting before showing the dashboard
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
             } else {
                 alert("Invalid Credentials");
             }
+        }
+
+        function updateGreeting() {
+            const now = new Date();
+            const hours = now.getHours();
+            let greeting = "Good morning,"; // Default
+
+            if (hours >= 12 && hours < 17) {
+                greeting = "Good afternoon,";
+            } else if (hours >= 17 || hours < 4) {
+                greeting = "Good evening,";
+            }
+
+            document.getElementById('dynamic-greeting').innerHTML = greeting + "<br>HENRY ANA";
         }
 
         function handleSignOff() {
