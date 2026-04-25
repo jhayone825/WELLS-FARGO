@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Summary</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f0ed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Login Screen Styling */
+        #login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f0ed;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #d71e28;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Dashboard Styling (Hidden by default) */
+        #dashboard { display: none; }
+
+        .header {
+            background-color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        .sign-off {
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .greeting-container {
+            padding: 30px 20px;
+            background: linear-gradient(to bottom, #dbe2e9, #f4f0ed);
+        }
+
+        .greeting-text {
+            font-size: 34px;
+            margin: 0;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+
+        .customer-since {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .account-card {
+            background: white;
+            margin: 0 15px 15px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .account-type {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .balance { font-size: 30px; font-weight: 500; margin: 0; }
+        .balance-label { font-size: 12px; color: #666; }
+
+        .action-button {
+            display: block;
+            width: calc(100% - 30px);
+            margin: 20px auto;
+            padding: 14px;
+            background: transparent;
+            border: 1px solid #333;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .footer-disclosures {
+            padding: 20px; font-size: 12px; color: #555; margin-bottom: 100px; line-height: 1.5;
+        }
+
+        .housing-lender { display: flex; align-items: center; gap: 8px; margin-top: 15px; font-weight: 600; color: #222; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; width: 100%; background: white; display: flex;
+            justify-content: space-around; padding: 12px 0; border-top: 1px solid #ddd;
+        }
+
+        .nav-item {
+            text-align: center; font-size: 10px; color: #666; font-weight: 500;
+            background: none; border: none; cursor: pointer; width: 20%;
+        }
+
+        .nav-icon { font-size: 22px; margin-bottom: 4px; display: block; }
+        .active { color: #d71e28; }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <img src="https://i.ibb.co/prhPPdq6/IMG-20260425-WA0075.jpg" alt="Logo" class="login-logo">
+            
+            <h2 style="color: #d71e28; margin-top: 0;">Sign On</h2>
+            <input type="text" id="userid" placeholder="User ID">
+            <input type="password" id="password" placeholder="Password">
+            <button class="login-btn" onclick="handleLogin()">Sign On</button>
+        </div>
+    </div>
+
+    <div id="dashboard">
+        <div class="header">
+            <img src="https://i.ibb.co/7NWyFWt2/IMG-20260425-WA0072.jpg" alt="Profile" class="profile-img">
+            <a class="sign-off" onclick="handleSignOff()">Sign Off</a>
+        </div>
+
+        <div class="greeting-container">
+            <h1 class="greeting-text">Good morning,<br>HENRY ANA</h1>
+            <p class="customer-since">Customer since 2006</p>
+        </div>
+
+        <div class="account-card">
+            <div class="account-type">Everyday Checking ...6514</div>
+            <div class="balance">$15,000,000,000.88</div>
+            <div class="balance-label">Available balance</div>
+        </div>
+
+        <button class="action-button" onclick="lockAction()">Open a new account</button>
+
+        <div class="account-card" style="display: flex; align-items: center; gap: 15px;" onclick="lockAction()">
+            <div style="width: 22px; height: 22px; border-radius: 50%; border: 3px solid #d71e28;"></div>
+            <span style="font-size: 15px; font-weight: 500;">View your FICO® Credit Score</span>
+        </div>
+
+        <div class="footer-disclosures">
+            <p>Deposit products offered by Wells Fargo Bank, N.A. Member FDIC.</p>
+            <div class="housing-lender">
+                <span style="font-size: 20px;">🏠</span>
+                <span>Equal Housing Lender</span>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active"><span class="nav-icon">🏠</span>Accounts</div>
+            <button class="nav-item" onclick="lockAction()"><span class="nav-icon">📥</span>Deposit</button>
+            <button class="nav-item" onclick="lockAction()"><span class="nav-icon">⇄</span>Pay & Transfer</button>
+            <button class="nav-item" onclick="lockAction()"><span class="nav-icon">🧭</span>Explore</button>
+            <button class="nav-item" onclick="lockAction()"><span class="nav-icon">☰</span>Menu</button>
+        </nav>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const user = document.getElementById('userid').value;
+            const pass = document.getElementById('password').value;
+
+            if (user === "HENRYANA" && pass === "Simon100") {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+            } else {
+                alert("Invalid Credentials");
+            }
+        }
+
+        function handleSignOff() {
+            document.getElementById('userid').value = "";
+            document.getElementById('password').value = "";
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+        }
+
+        function lockAction() {
+            alert("LOCKED");
+        }
+    </script>
+
+</body>
+</html>
