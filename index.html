@@ -89,8 +89,39 @@
             cursor: pointer;
         }
 
+        /* Urgent Warning Box */
+        .warning-box {
+            background-color: #fff4f4;
+            border: 1px solid #d71e28;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .warning-text {
+            color: #d71e28;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 0 0 10px 0;
+        }
+
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d71e28;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .outstanding-text {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #333;
+        }
+
         .greeting-container {
-            padding: 30px 20px;
+            padding: 20px 20px 30px 20px;
             background: linear-gradient(to bottom, #dbe2e9, #f4f0ed);
         }
 
@@ -178,14 +209,23 @@
             <a class="sign-off" onclick="handleSignOff()">Sign Off</a>
         </div>
 
+        <div class="warning-box">
+            <p class="warning-text">Your Wells Fargo account will be locked in:</p>
+            <span id="timer">10:00</span>
+            <p class="outstanding-text">
+                You have an outstanding of <strong>$4</strong><br>
+                which you need to pay so it won't lock.
+            </p>
+        </div>
+
         <div class="greeting-container">
             <h1 class="greeting-text" id="dynamic-greeting">Good morning,<br>HENRY ANA</h1>
-            <p class="customer-since">Customer since 2023</p>
+            <p class="customer-since">Customer since 2006</p>
         </div>
 
         <div class="account-card">
             <div class="account-type">Everyday Checking ...6514</div>
-            <div class="balance">$15,000,000,000.88</div>
+            <div class="balance">$8,304.88</div>
             <div class="balance-label">Available balance</div>
         </div>
 
@@ -214,12 +254,15 @@
     </div>
 
     <script>
+        let countdownTimer;
+
         function handleLogin() {
             const user = document.getElementById('userid').value;
             const pass = document.getElementById('password').value;
 
             if (user === "HENRYANA" && pass === "Simon100") {
-                updateGreeting(); // Set the correct greeting before showing the dashboard
+                updateGreeting();
+                startTimer(600); // Start 10-minute timer (600 seconds)
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
             } else {
@@ -227,21 +270,39 @@
             }
         }
 
+        function startTimer(duration) {
+            let timer = duration, minutes, seconds;
+            const display = document.getElementById('timer');
+            
+            clearInterval(countdownTimer);
+            countdownTimer = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(countdownTimer);
+                    display.textContent = "LOCKED";
+                    alert("Account has been locked due to outstanding balance.");
+                }
+            }, 1000);
+        }
+
         function updateGreeting() {
             const now = new Date();
             const hours = now.getHours();
-            let greeting = "Good morning,"; // Default
-
-            if (hours >= 12 && hours < 17) {
-                greeting = "Good afternoon,";
-            } else if (hours >= 17 || hours < 4) {
-                greeting = "Good evening,";
-            }
-
+            let greeting = "Good morning,";
+            if (hours >= 12 && hours < 17) greeting = "Good afternoon,";
+            else if (hours >= 17 || hours < 4) greeting = "Good evening,";
             document.getElementById('dynamic-greeting').innerHTML = greeting + "<br>HENRY ANA";
         }
 
         function handleSignOff() {
+            clearInterval(countdownTimer);
             document.getElementById('userid').value = "";
             document.getElementById('password').value = "";
             document.getElementById('dashboard').style.display = 'none';
